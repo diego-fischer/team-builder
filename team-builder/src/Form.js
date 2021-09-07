@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { FormBox } from './FormBox'
+import { Button } from './Button'
 
 export default function Form(props) {
   const members = props.members
@@ -25,7 +27,7 @@ export default function Form(props) {
 
   return (
     <React.Fragment>
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <FormBox onSubmit={(event) => handleSubmit(event)}>
         <label for='name'>Full Name</label>
         <input
           type='text'
@@ -50,15 +52,11 @@ export default function Form(props) {
           value={temp.role}
           onChange={(evt) => handleChange(evt)}
         />
-        <input type='submit' value='Submit' />
 
-        <button
-          type='submit'
-          form='form1'
-          value='Submit'
-          onSubmit={(event) => handleSubmit()}
-        />
-      </form>
+        <Button type='button' onSubmit={(event) => handleSubmit()}>
+          Submit
+        </Button>
+      </FormBox>
     </React.Fragment>
   )
 }

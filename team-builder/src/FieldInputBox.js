@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-const FormBox = styled.form`
+const FieldInputBox = styled.div`
+  width: 100%;
+  margin: 1vh 0 1vh 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 `
-
-export { FormBox }
+export { FieldInputBox }

@@ -10,35 +10,55 @@ import { SplitScreen } from './SplitScreen'
 import { SplitContainer } from './SplitContainer'
 import { Label } from './Label'
 import { Input } from './Input'
+import { useEffect } from 'react'
 
 export default function Form(props) {
-  const members = props.members
-  const setMembers = props.setMembers
   const initialState = {
     name: '',
     email: '',
     role: '',
   }
-
   const [temp, setTemp] = useState(initialState)
 
+  const members = props.members
+  const setMembers = props.setMembers
+  console.log('members is now...', members)
+  console.log('setMembers is Now...', setMembers)
+
   const handleSubmit = (evt) => {
-    evt.preventDefault()
+    debugger
+    console.log('DEFAULT BEHAVIOR HAS BEEN PREVENTED')
     setMembers(...members, temp)
-    setTemp(initialState)
+    // evt.preventDefault()
   }
 
   const handleChange = (evt) => {
+    evt.preventDefault()
     setTemp({ ...temp, [evt.target.id]: evt.target.value })
-    console.log('TEMP', temp)
   }
+
+  useEffect(() => {
+    console.log('TEMP', temp)
+  }, [temp])
+
+  useEffect(() => {
+    console.log('MEMBERS', members)
+  }, [members])
+
+  useEffect(() => {
+    console.log('PROPS', props)
+  }, [props])
 
   return (
     <React.Fragment>
       <SplitContainer id='splitContainer'>
         <SplitScreen id='splitScreenLeft'>
           <Header id='headerH1'>Add your friends!</Header>
-          <FormBox id='formBox' onSubmit={(event) => handleSubmit(event)}>
+          <FormBox
+            name='form'
+            id='formBox'
+            onSubmit={(event) => handleSubmit(event)}
+          >
             <FieldInputBox className='fieldInputBox'>
               <Label for='name' className='label'>
                 Full Name
@@ -80,8 +100,9 @@ export default function Form(props) {
             </FieldInputBox>
 
             <Button
-              type='button'
-              onSubmit={(event) => handleSubmit()}
+              type='submit'
+              name='button'
+              onSubmit={(evt) => handleSubmit(evt)}
               className='button'
             >
               Submit

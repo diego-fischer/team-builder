@@ -4,7 +4,7 @@ import { FormBox } from './FormBox'
 import { Button } from './Button'
 import { Header } from './Header'
 import { FieldInputBox } from './FieldInputBox'
-import { SavedItem } from './SavedItem'
+import SavedItem from './SavedItem'
 import { SavedItems } from './SavedItems'
 import { SplitScreen } from './SplitScreen'
 import { SplitContainer } from './SplitContainer'
@@ -13,41 +13,34 @@ import { Input } from './Input'
 import { useEffect } from 'react'
 
 export default function Form(props) {
-  const initialState = {
+  const tempInitialState = {
     name: '',
     email: '',
     role: '',
   }
-  const [temp, setTemp] = useState(initialState)
+
+  const [temp, setTemp] = useState(tempInitialState)
 
   const members = props.members
   const setMembers = props.setMembers
-  console.log('members is now...', members)
-  console.log('setMembers is Now...', setMembers)
+  console.log('FORM PROPS', props)
 
   const handleSubmit = (evt) => {
-    debugger
-    console.log('DEFAULT BEHAVIOR HAS BEEN PREVENTED')
-    setMembers(...members, temp)
-    // evt.preventDefault()
+    evt.preventDefault()
+    const arr = members
+    arr.push(temp)
+    setMembers(arr)
+    setTemp(tempInitialState)
   }
 
   const handleChange = (evt) => {
-    evt.preventDefault()
-    setTemp({ ...temp, [evt.target.id]: evt.target.value })
+    setTemp({ ...temp, [evt.target.name]: evt.target.value })
   }
 
   useEffect(() => {
-    console.log('TEMP', temp)
-  }, [temp])
-
-  useEffect(() => {
-    console.log('MEMBERS', members)
-  }, [members])
-
-  useEffect(() => {
-    console.log('PROPS', props)
-  }, [props])
+    console.log('TEMP (FORM LEVEL)', temp)
+    console.log('MEMBERS (FORM LEVEL)', members)
+  }, [temp, members])
 
   return (
     <React.Fragment>
@@ -57,15 +50,15 @@ export default function Form(props) {
           <FormBox
             name='form'
             id='formBox'
-            onSubmit={(event) => handleSubmit(event)}
+            onSubmit={(evt) => handleSubmit(evt)}
           >
             <FieldInputBox className='fieldInputBox'>
-              <Label for='name' className='label'>
+              <Label htmlFor='nameInput' className='label'>
                 Full Name
               </Label>
               <Input
                 type='text'
-                id='name'
+                id='nameInput'
                 name='name'
                 value={temp.name}
                 onChange={(evt) => handleChange(evt)}
@@ -73,12 +66,12 @@ export default function Form(props) {
               />
             </FieldInputBox>
             <FieldInputBox className='fieldInputBox'>
-              <Label for='email' className='label'>
+              <Label htmlFor='emailInput' className='label'>
                 Email
               </Label>
               <Input
                 type='text'
-                id='email'
+                id='emailInput'
                 name='email'
                 value={temp.email}
                 onChange={(evt) => handleChange(evt)}
@@ -86,12 +79,12 @@ export default function Form(props) {
               />
             </FieldInputBox>
             <FieldInputBox className='fieldInputBox'>
-              <Label for='role' className='label'>
+              <Label htmlFor='roleInput' className='label'>
                 Role
               </Label>
               <Input
                 type='text'
-                id='role'
+                id='roleInput'
                 name='role'
                 value={temp.role}
                 onChange={(evt) => handleChange(evt)}
@@ -100,20 +93,25 @@ export default function Form(props) {
             </FieldInputBox>
 
             <Button
-              type='submit'
               name='button'
-              onSubmit={(evt) => handleSubmit(evt)}
               className='button'
-            >
-              Submit
-            </Button>
+              type='submit'
+              value='Submit'
+            />
           </FormBox>
         </SplitScreen>
 
         <SplitScreen id='splitScreenRight'>
           <SavedItems id='savedItems'>
-            <h1>Saved Friends</h1>
-            <SavedItem className='savedItem'>{members} 1</SavedItem>
+            {members &&
+              members.map((el) => (
+                <SavedItem
+                  name={el.name}
+                  email={el.email}
+                  role={el.role}
+                  className='savedItem'
+                />
+              ))}
           </SavedItems>
         </SplitScreen>
       </SplitContainer>

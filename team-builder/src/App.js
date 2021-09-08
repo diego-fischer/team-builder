@@ -1,9 +1,15 @@
 import Form from './Form'
-import { useState } from 'react'
 import { Container } from './Container'
+import { useState, useEffect } from 'react'
 
 function App() {
-  const [members, setMembers] = useState(null)
+  const membersInitialState = []
+
+  const [members, setMembers] = useState(membersInitialState)
+
+  useEffect(() => {
+    console.log('MEMBERS (APP LEVEL)', members)
+  }, [members])
 
   return (
     <Container id='containerBeforeForm'>

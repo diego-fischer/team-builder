@@ -9,7 +9,7 @@ const SavedItems = styled.div`
   margin: 2vh 0 2vh 0;
   border: 2px solid black;
   border-radius: 5px;
-  height: 50vh;
+  min-height: 50vh;
 `
 
 export { SavedItems }
